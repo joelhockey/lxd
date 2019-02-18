@@ -615,7 +615,9 @@ func (s *SimpleStreams) downloadFile(path string, hash string, target string, pr
 			ReadCloser: r.Body,
 			Tracker: &ioprogress.ProgressTracker{
 				Length:  r.ContentLength,
-				Handler: progress,
+				Handler: func(size, processed, percent, speed int64) {
+					progress(percent, speed)
+				},
 			},
 		}
 

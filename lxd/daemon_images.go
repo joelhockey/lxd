@@ -491,7 +491,7 @@ func (d *Daemon) ImageDownload(op *operation, server string, protocol string, ce
 			ReadCloser: raw.Body,
 			Tracker: &ioprogress.ProgressTracker{
 				Length: raw.ContentLength,
-				Handler: func(percent int64, speed int64) {
+				Handler: func(size, processed, percent, speed int64) {
 					progress(ioprogress.ProgressData{Text: fmt.Sprintf("%d%% (%s/s)", percent, shared.GetByteSizeString(speed, 2))})
 				},
 			},

@@ -17,7 +17,7 @@ func (pt *ProgressReader) Read(p []byte) (int, error) {
 
 	// Do the actual progress tracking
 	if pt.Tracker != nil {
-		pt.Tracker.total += int64(n)
+		pt.Tracker.processed += int64(n)
 		pt.Tracker.update(n)
 	}
 

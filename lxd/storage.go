@@ -801,8 +801,8 @@ func StorageProgressReader(op *operation, key string, description string) func(i
 			return reader
 		}
 
-		progress := func(progressInt int64, speedInt int64) {
-			progressWrapperRender(op, key, description, progressInt, speedInt)
+		progress := func(size, processed, percent, speed int64) {
+			progressWrapperRender(op, key, description, processed, speed)
 		}
 
 		readPipe := &ioprogress.ProgressReader{
@@ -823,8 +823,8 @@ func StorageProgressWriter(op *operation, key string, description string) func(i
 			return writer
 		}
 
-		progress := func(progressInt int64, speedInt int64) {
-			progressWrapperRender(op, key, description, progressInt, speedInt)
+		progress := func(size, processed, percent, speed int64) {
+			progressWrapperRender(op, key, description, processed, speed)
 		}
 
 		writePipe := &ioprogress.ProgressWriter{

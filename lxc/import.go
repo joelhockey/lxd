@@ -77,7 +77,7 @@ func (c *cmdImport) Run(cmd *cobra.Command, args []string) error {
 			ReadCloser: file,
 			Tracker: &ioprogress.ProgressTracker{
 				Length: fstat.Size(),
-				Handler: func(percent int64, speed int64) {
+				Handler: func(size, processed, percent, speed int64) {
 					progress.UpdateProgress(ioprogress.ProgressData{Text: fmt.Sprintf("%d%% (%s/s)", percent, shared.GetByteSizeString(speed, 2))})
 				},
 			},

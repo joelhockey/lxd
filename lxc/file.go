@@ -338,14 +338,14 @@ func (c *cmdFilePull) Run(cmd *cobra.Command, args []string) error {
 		writer := &ioprogress.ProgressWriter{
 			WriteCloser: f,
 			Tracker: &ioprogress.ProgressTracker{
-				Handler: func(bytesReceived int64, speed int64) {
+				Handler: func(size, processed, percent, speed int64) {
 					if targetPath == "-" {
 						return
 					}
 
 					progress.UpdateProgress(ioprogress.ProgressData{
 						Text: fmt.Sprintf("%s (%s/s)",
-							shared.GetByteSizeString(bytesReceived, 2),
+							shared.GetByteSizeString(processed, 2),
 							shared.GetByteSizeString(speed, 2))})
 				},
 			},
@@ -598,7 +598,7 @@ func (c *cmdFilePush) Run(cmd *cobra.Command, args []string) error {
 			ReadCloser: f,
 			Tracker: &ioprogress.ProgressTracker{
 				Length: fstat.Size(),
-				Handler: func(percent int64, speed int64) {
+				Handler: func(size, processed, percent, speed int64) {
 					progress.UpdateProgress(ioprogress.ProgressData{
 						Text: fmt.Sprintf("%d%% (%s/s)", percent, shared.GetByteSizeString(speed, 2)),
 					})
@@ -661,10 +661,10 @@ func (c *cmdFile) recursivePullFile(d lxd.ContainerServer, container string, p s
 		writer := &ioprogress.ProgressWriter{
 			WriteCloser: f,
 			Tracker: &ioprogress.ProgressTracker{
-				Handler: func(bytesReceived int64, speed int64) {
+				Handler: func(size, processed, percent, speed int64) {
 					progress.UpdateProgress(ioprogress.ProgressData{
 						Text: fmt.Sprintf("%s (%s/s)",
-							shared.GetByteSizeString(bytesReceived, 2),
+							shared.GetByteSizeString(processed, 2),
 							shared.GetByteSizeString(speed, 2))})
 				},
 			},
@@ -765,7 +765,7 @@ func (c *cmdFile) recursivePushFile(d lxd.ContainerServer, container string, sou
 				ReadCloser: readCloser,
 				Tracker: &ioprogress.ProgressTracker{
 					Length: contentLength,
-					Handler: func(percent int64, speed int64) {
+					Handler: func(size, processed, percent, speed int64) {
 						progress.UpdateProgress(ioprogress.ProgressData{
 							Text: fmt.Sprintf("%d%% (%s/s)", percent,
 								shared.GetByteSizeString(speed, 2))})

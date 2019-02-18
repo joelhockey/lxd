@@ -1853,7 +1853,7 @@ func (r *ProtocolLXD) GetContainerBackupFile(containerName string, name string, 
 			ReadCloser: response.Body,
 			Tracker: &ioprogress.ProgressTracker{
 				Length: response.ContentLength,
-				Handler: func(percent int64, speed int64) {
+				Handler: func(size, processed, percent, speed int64) {
 					req.ProgressHandler(ioprogress.ProgressData{Text: fmt.Sprintf("%d%% (%s/s)", percent, shared.GetByteSizeString(speed, 2))})
 				},
 			},

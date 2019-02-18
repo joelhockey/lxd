@@ -210,8 +210,8 @@ func imgPostContInfo(d *Daemon, r *http.Request, req api.ImagesPost, op *operati
 	metadata := make(map[string]interface{})
 	imageProgressWriter := &ioprogress.ProgressWriter{
 		Tracker: &ioprogress.ProgressTracker{
-			Handler: func(percent, speed int64) {
-				shared.SetProgressMetadata(metadata, "create_image_from_container_pack", "Image pack", percent, speed)
+			Handler: func(size, processed, percent, speed int64) {
+				shared.SetProgressMetadata(metadata, "create_image_from_container_pack", "Image pack", size, processed, percent, speed)
 				op.UpdateMetadata(metadata)
 			},
 			Length: totalSize,
